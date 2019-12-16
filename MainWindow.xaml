@@ -7,6 +7,21 @@
         xmlns:local="clr-namespace:NewGame"
         mc:Ignorable="d"
         Title="MainWindow" Height="900" Width="1600">
+    <Window.Resources>
+        <!--<Style x:Key="{x:Type ListBox}" TargetType="ListBox">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBox">
+                        <Border Name="Border">
+                            <ScrollViewer Margin="0" Focusable="false">
+                                <StackPanel Margin="2" IsItemsHost="True" />
+                            </ScrollViewer>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>-->
+    </Window.Resources>
     <Grid>
 
         <Grid.RowDefinitions>
@@ -26,30 +41,34 @@
                  Grid.Row="1"
                  Background="Azure" 
                  ScrollViewer.CanContentScroll="False"
-                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                 ScrollViewer.VerticalScrollBarVisibility="Disabled">
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="PreviewMouseWheel">
-                    <i:InvokeCommandAction 
-                                    Command="{Binding MapControl.ScaleCommand}"
-                                    PassEventArgsToCommand="True"/>
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
-
+                 ScrollViewer.HorizontalScrollBarVisibility="Visible"
+                 ScrollViewer.VerticalScrollBarVisibility="Visible">
             <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
+                <ItemsPanelTemplate >
                     <Canvas Background="Aquamarine" 
                             Width="50000"
                             Height="50000">
-                        
+
                         <i:Interaction.Triggers>
+
+                            <i:EventTrigger EventName="Loaded">
+                                <i:InvokeCommandAction 
+                                    Command="{Binding MapControl.MapLoaded}"/>
+                            </i:EventTrigger>
+
+                            <i:EventTrigger EventName="PreviewMouseWheel">
+                                <i:InvokeCommandAction 
+                                    Command="{Binding MapControl.ScaleCommand}"
+                                    PassEventArgsToCommand="True"/>
+                            </i:EventTrigger>
+
                             <i:EventTrigger EventName="PreviewMouseMove">
                                 <i:InvokeCommandAction 
                                     Command="{Binding MapControl.MousePos}"
                                     PassEventArgsToCommand="True"/>
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
-                        
+
                         <Canvas.RenderTransform >
                             <ScaleTransform
                                 ScaleX="{Binding MapControl.ScaleX}"
@@ -96,6 +115,7 @@
                 Text="{Binding PosX}"/>
             <TextBox x:Name="posX"/>
             <TextBox x:Name="posY"/>
+            
         </StackPanel>
 
 
@@ -125,8 +145,8 @@
             <Button Grid.Column="2"
                     Command="{Binding DeleteCommand}"
                     CommandParameter="{Binding ElementName=gameField, Path=SelectedItem}"/>
-            <Button Grid.Column="3"/>
-            
+            <Button Grid.Column="3" Command=""/> <!--zdes-->
+
         </Grid>
         
     </Grid>

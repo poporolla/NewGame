@@ -155,8 +155,8 @@ namespace NewGame
 						//	scaleY += 0.05;
 						//}
 
-						ListBox listBox = eventArgs.Source as ListBox;
-						Point point = Mouse.GetPosition(listBox);
+						Canvas canvas = eventArgs.Source as Canvas;
+						Point point = Mouse.GetPosition(canvas);
 
 						if (ScaleX < 1 && eventArgs.Delta > 0)
 						{
@@ -172,8 +172,11 @@ namespace NewGame
 						//CenterX = listBox.ActualWidth / 2;
 						//CenterY = listBox.ActualHeight / 2;
 
-						CenterX = point.X;
-						CenterY = point.Y;
+						CenterX = MousePosX;
+						CenterY = MousePosY;
+
+						//CenterX = 25000;
+						//CenterY = 25000;
 
 						//CenterX = MousePosX;
 						//CenterY = MousePosY;

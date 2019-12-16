@@ -47,8 +47,8 @@ namespace NewGame
 					{
 						StackPanel stackPanel = obj as StackPanel;
 						Sector minenSector = new MinedSector();
-						minenSector.PosX = int.Parse((stackPanel.Children[1] as TextBox).Text);
-						minenSector.PosY = int.Parse((stackPanel.Children[2] as TextBox).Text);
+						minenSector.PosX = int.Parse((stackPanel.Children[3] as TextBox).Text);
+						minenSector.PosY = int.Parse((stackPanel.Children[4] as TextBox).Text);
 						NewSector(minenSector);
 					}));
 			}
@@ -81,27 +81,29 @@ namespace NewGame
 
 		private void NewSector(Sector sector)
 		{
-			int centerX = Math.Abs(Sectors.Min(em => em.PosX)) * 40 + 80;
-			int centerY = Sectors.Max(em => em.PosY) * 40 + 80;
+			//int centerX = Math.Abs(Sectors.Min(em => em.PosX)) * 40 + 25000;
+			//int centerY = Sectors.Max(em => em.PosY) * 40 + 25000;
 
-			int deltaX = Sectors.Min(em => em.PosX) - sector.PosX;
-			deltaX = (deltaX > 0) ? deltaX : 0;
-			int deltaY = sector.PosY - Sectors.Max(em => em.PosY);
-			deltaY = (deltaY > 0) ? deltaY : 0;
+			////int deltaX = Sectors.Min(em => em.PosX) - sector.PosX;
+			////deltaX = (deltaX > 0) ? deltaX : 0;
+			////int deltaY = sector.PosY - Sectors.Max(em => em.PosY);
+			////deltaY = (deltaY > 0) ? deltaY : 0;
 
-			if (deltaX > 0 || deltaY > 0)
-			{
-				foreach(Sector sec in Sectors)
-				{
-					Sector secDB = db.Sectors.Find(sec.Id);
-					secDB.Left += deltaX * 40;
-					secDB.Top += deltaY * 40;
-					db.Entry(secDB).State = EntityState.Modified;
-				}
-			}
+			////if (deltaX > 0 || deltaY > 0)
+			////{
+			////	foreach(Sector sec in Sectors)
+			////	{
+			////		Sector secDB = db.Sectors.Find(sec.Id);
+			////		secDB.Left += deltaX * 40;
+			////		secDB.Top += deltaY * 40;
+			////		db.Entry(secDB).State = EntityState.Modified;
+			////	}
+			////}
 
-			sector.Left = centerX + (sector.PosX * 40);
-			sector.Top = centerY - (sector.PosY * 40);
+			//sector.Left = centerX + (sector.PosX * 40);
+			//sector.Top = centerY - (sector.PosY * 40);
+			sector.Left = 25000 + (sector.PosX * 40);
+			sector.Top = 25000 - (sector.PosY * 40);
 			db.Sectors.Add(sector);
 			db.SaveChanges();
 		}
