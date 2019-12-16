@@ -7,21 +7,6 @@
         xmlns:local="clr-namespace:NewGame"
         mc:Ignorable="d"
         Title="MainWindow" Height="900" Width="1600">
-    <Window.Resources>
-        <!--<Style x:Key="{x:Type ListBox}" TargetType="ListBox">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="ListBox">
-                        <Border Name="Border">
-                            <ScrollViewer Margin="0" Focusable="false">
-                                <StackPanel Margin="2" IsItemsHost="True" />
-                            </ScrollViewer>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>-->
-    </Window.Resources>
     <Grid>
 
         <Grid.RowDefinitions>
@@ -43,43 +28,45 @@
                  ScrollViewer.CanContentScroll="False"
                  ScrollViewer.HorizontalScrollBarVisibility="Visible"
                  ScrollViewer.VerticalScrollBarVisibility="Visible">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate >
-                    <Canvas Background="Aquamarine" 
-                            Width="50000"
-                            Height="50000">
+            <ListBox.Resources>
+                <Style x:Key="{x:Type ListBox}" TargetType="ListBox">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListBox">
+                                <Border Name="Border">
+                                    <ScrollViewer 
+                                        local:ScrollViewerUtilities.HorizontalOffset="{Binding MapControl.CenterX}"
+                                        local:ScrollViewerUtilities.VerticalOffset="{Binding MapControl.CenterY}"
+                                        HorizontalScrollBarVisibility="Hidden"
+                                        VerticalScrollBarVisibility="Hidden"
+                                        CanContentScroll="False">
 
-                        <i:Interaction.Triggers>
+                                        <Canvas IsItemsHost="True" 
+                                                Background="Aquamarine" 
+                                                Width="{Binding MapControl.Width}"
+                                                Height="{Binding MapControl.Width}">
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="PreviewMouseWheel">
+                                                    <i:InvokeCommandAction 
+                                                        Command="{Binding MapControl.ScaleCommand}"
+                                                        PassEventArgsToCommand="True"/>
+                                                </i:EventTrigger>
 
-                            <i:EventTrigger EventName="Loaded">
-                                <i:InvokeCommandAction 
-                                    Command="{Binding MapControl.MapLoaded}"/>
-                            </i:EventTrigger>
+                                                <i:EventTrigger EventName="PreviewMouseMove">
+                                                    <i:InvokeCommandAction 
+                                                        Command="{Binding MapControl.MousePos}"
+                                                        PassEventArgsToCommand="True"/>
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                        </Canvas>
+                                    </ScrollViewer>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListBox.Resources>
 
-                            <i:EventTrigger EventName="PreviewMouseWheel">
-                                <i:InvokeCommandAction 
-                                    Command="{Binding MapControl.ScaleCommand}"
-                                    PassEventArgsToCommand="True"/>
-                            </i:EventTrigger>
-
-                            <i:EventTrigger EventName="PreviewMouseMove">
-                                <i:InvokeCommandAction 
-                                    Command="{Binding MapControl.MousePos}"
-                                    PassEventArgsToCommand="True"/>
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-
-                        <Canvas.RenderTransform >
-                            <ScaleTransform
-                                ScaleX="{Binding MapControl.ScaleX}"
-                                ScaleY="{Binding MapControl.ScaleY}"
-                                CenterX="{Binding MapControl.CenterX}"
-                                CenterY="{Binding MapControl.CenterY}"/>
-                        </Canvas.RenderTransform>
-                    </Canvas>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            
             <ItemsControl.ItemContainerStyle>
                 <Style TargetType="ListBoxItem">
                     <Setter Property="Canvas.Left" Value="{Binding Left}" />
@@ -96,6 +83,7 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ListBox>
+        
 
 
         <!--Example for binding to selected item-->
@@ -145,7 +133,7 @@
             <Button Grid.Column="2"
                     Command="{Binding DeleteCommand}"
                     CommandParameter="{Binding ElementName=gameField, Path=SelectedItem}"/>
-            <Button Grid.Column="3" Command=""/> <!--zdes-->
+            <Button Grid.Column="3"/>
 
         </Grid>
         

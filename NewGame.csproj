@@ -80,6 +80,7 @@
     <Compile Include="ApplicationContext.cs" />
     <Compile Include="ApplicationViewModel.cs" />
     <Compile Include="ClearSector.cs" />
+    <Compile Include="DependencyProperties\ScrollViewerUtilities.cs" />
     <Compile Include="MapControl.cs" />
     <Compile Include="MinedSector.cs" />
     <Compile Include="RelayCommand.cs" />
@@ -133,6 +134,7 @@
   <ItemGroup>
     <Resource Include="Images\SectorImages\Minen.jpg" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

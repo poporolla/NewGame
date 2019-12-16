@@ -8,17 +8,12 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace NewGame
 {
 	public class MapControl : INotifyPropertyChanged
 	{
-		//public MapControl(IEnumerable<Sector> sectors)
-		//{
-
-		//	Width = (sectors.Max(em => em.PosX) + Math.Abs(sectors.Min(em => em.PosX))) * 40 + 200;
-		//	Height = (sectors.Max(em => em.PosY) + Math.Abs(sectors.Min(em => em.PosY))) * 40 + 200;
-		//}
 		private double scaleX = 1;
 		public double ScaleX
 		{
@@ -45,7 +40,7 @@ namespace NewGame
 				OnPropertyChanged("ScaleY");
 			}
 		}
-		private double centerX = 25000;
+		private double centerX = 24550;
 		public double CenterX
 		{
 			get
@@ -58,7 +53,7 @@ namespace NewGame
 				OnPropertyChanged("CenterX");
 			}
 		}
-		private double centerY = 25000;
+		private double centerY = 24700;
 		public double CenterY
 		{
 			get
@@ -108,37 +103,33 @@ namespace NewGame
 						MouseEventArgs eventArgs = obj as MouseEventArgs;
 						Canvas canvas = eventArgs.Source as Canvas;
 						Point point = Mouse.GetPosition(canvas);
-						MousePosX = point.X;
-						MousePosY = point.Y;
+						
+						if(Mouse.LeftButton == MouseButtonState.Pressed)
+						{
+							CenterX += (MousePosX - point.X);
+							CenterY += (MousePosY - point.Y);
+						}
+						else
+						{
+							MousePosX = point.X;
+							MousePosY = point.Y;
+						}
 					}));
 			}
 		}
-		//private double width;
-		//public double Width
-		//{
-		//	get
-		//	{
-		//		return width;
-		//	}
-		//	set
-		//	{
-		//		width = value;
-		//		OnPropertyChanged("Width");
-		//	}
-		//}
-		//private double height;
-		//public double Height
-		//{
-		//	get
-		//	{
-		//		return height;
-		//	}
-		//	set
-		//	{
-		//		height = value;
-		//		OnPropertyChanged("Height");
-		//	}
-		//}
+		private double width = 50000;
+		public double Width
+		{
+			get
+			{
+				return width;
+			}
+			set
+			{
+				width = value;
+				OnPropertyChanged("Width");
+			}
+		}
 
 		RelayCommand scaleCommand;
 		public RelayCommand ScaleCommand
@@ -149,39 +140,20 @@ namespace NewGame
 					(scaleCommand = new RelayCommand(obj =>
 					{
 						MouseWheelEventArgs eventArgs = obj as MouseWheelEventArgs;
-						//if (Sectors.ElementAt(0).Height < 1 && eventArgs.Delta > 0)
-						//{
-						//	scaleX += 0.05;
-						//	scaleY += 0.05;
-						//}
-
+						eventArgs.Handled = true;
 						Canvas canvas = eventArgs.Source as Canvas;
-						Point point = Mouse.GetPosition(canvas);
 
 						if (ScaleX < 1 && eventArgs.Delta > 0)
 						{
 							ScaleX += 0.05;
 							ScaleY += 0.05;
 						}
-						else if (ScaleX > 0.1 && eventArgs.Delta < 0)
+						else if (ScaleX > 0.55 && eventArgs.Delta < 0)
 						{
 							ScaleX -= 0.05;
 							ScaleY -= 0.05;
 						}
-						//MessageBox.Show($"{listBox.Height}");
-						//CenterX = listBox.ActualWidth / 2;
-						//CenterY = listBox.ActualHeight / 2;
-
-						CenterX = MousePosX;
-						CenterY = MousePosY;
-
-						//CenterX = 25000;
-						//CenterY = 25000;
-
-						//CenterX = MousePosX;
-						//CenterY = MousePosY;
-
-						//canvas.RenderTransform = new ScaleTransform(scaleX, scaleY);
+						canvas.RenderTransform = new ScaleTransform(ScaleX, ScaleY, CenterX + 450, CenterY + 300);
 					}));
 			}
 		}
