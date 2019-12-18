@@ -97,18 +97,18 @@
             </StackPanel.Resources>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Сектор: " />
-                <TextBlock Text="{Binding Acts.Position}"/>
+                <TextBlock Text="{Binding Position}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Уровень: " />
-                <TextBlock Text="{Binding Acts.Level}"/>
+                <TextBlock Text="{Binding Level}"/>
             </StackPanel>
         </StackPanel>
         
         <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Vertical" Margin="10,0,20,0">
-            <TextBlock Text="{Binding Acts.Type}" FontSize="30" Foreground="Green"/>
-            <TextBlock Text="{Binding Acts.Description}" FontSize="20" Foreground="Goldenrod" TextWrapping="Wrap"/>
-            <TextBlock Text="{Binding Acts.SectorMeta}" FontSize="17" Foreground="Gold" TextWrapping="Wrap"/>
+            <TextBlock Text="{Binding Type}" FontSize="30" Foreground="Green"/>
+            <TextBlock Text="{Binding Description}" FontSize="20" Foreground="Goldenrod" TextWrapping="Wrap"/>
+            <TextBlock Text="{Binding SectorMeta}" FontSize="17" Foreground="Gold" TextWrapping="Wrap"/>
         </StackPanel>
 
         <!--Example for binding to selected item-->
@@ -150,8 +150,8 @@
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
 
-            <Button Command="{Binding Acts.FirstButtonCommand}"
-                    Content="{Binding Acts.FirstButton}"
+            <Button Command="{Binding FirstButtonCommand}"
+                    Content="{Binding FirstButton}"
                     FontSize="15"/>
             <Button Grid.Column="1"/>
             <Button Grid.Column="2"

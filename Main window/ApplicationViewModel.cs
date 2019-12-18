@@ -14,7 +14,7 @@ namespace NewGame
 {
 	public class ApplicationViewModel : INotifyPropertyChanged
 	{
-		public ApplicationContext db;
+		ApplicationContext db;
 		IEnumerable<Sector> sectors;
 		public IEnumerable<Sector> Sectors
 		{
@@ -38,7 +38,7 @@ namespace NewGame
 			set
 			{
 				selectedSector = value;
-				Acts = new PlayActs(value, this);
+				InicializeSectorInfo(value);
 				OnPropertyChanged("SelectedSector");
 			}
 		}
@@ -122,25 +122,172 @@ namespace NewGame
 			db.Sectors.Add(sector);
 			db.SaveChanges();
 		}
+		/// <summary>
+		/// Обновление информации о выбранном секторе
+		/// </summary>
+		/// <param name="sector"></param>
+		private void InicializeSectorInfo(Sector sector)
+		{
+			Position = sector == null ? null : $"{sector.PosX} , {sector.PosY}";
+			Level = sector == null ? null : sector.Level.ToString();
+			Type = sector?.GetSectorType();
+			Description = sector?.GetDescription();
+			SectorMeta = sector?.GetSectorMeta();
+			switch (sector)
+			{
+				case ClearSector sect:
+					FirstButton = "Построить";
+					FirstButtonCommand = CheckCommand;
+					break;
+				case MinedSector sect:
+					FirstButton = "Разминировать";
+					FirstButtonCommand = DeminingCommand;
+					break;
+				default:
+					FirstButton = "Не определено";
+					FirstButtonCommand = CheckCommand;
+					break;
+			}
+		}
 
 		/// <summary>
 		/// Controller for gamefield
 		/// </summary>
 		public MapControl MapControl { get; set; }
-		/// <summary>
-		/// Controller for player actions
-		/// </summary>
-		private PlayActs acts;
-		public PlayActs Acts
+		
+		private string position;
+		public string Position
 		{
 			get
 			{
-				return acts;
+				return position;
 			}
 			set
 			{
-				acts = value;
-				OnPropertyChanged("Acts");
+				position = value;
+				OnPropertyChanged("Position");
+			}
+		}
+
+		
+		private string level;
+		public string Level
+		{
+			get
+			{
+				return level;
+			}
+			set
+			{
+				level = value;
+				OnPropertyChanged("Level");
+			}
+		}
+		private string type;
+		public string Type
+		{
+			get
+			{
+				return type;
+			}
+			set
+			{
+				type = value;
+				OnPropertyChanged("Type");
+			}
+		}
+		private string description;
+		public string Description
+		{
+			get
+			{
+				return description;
+			}
+			set
+			{
+				description = value;
+				OnPropertyChanged("Description");
+			}
+		}
+		private string sectorMeta;
+		public string SectorMeta
+		{
+			get
+			{
+				return sectorMeta;
+			}
+			set
+			{
+				sectorMeta = value;
+				OnPropertyChanged("SectorMeta");
+			}
+		}
+		private string firstButton;
+		public string FirstButton
+		{
+			get
+			{
+				return firstButton;
+			}
+			set
+			{
+				firstButton = value;
+				OnPropertyChanged("FirstButton");
+			}
+		}
+		private RelayCommand firstButtonCommand;
+		public RelayCommand FirstButtonCommand
+		{
+			get
+			{
+				return firstButtonCommand;
+			}
+			set
+			{
+				firstButtonCommand = value;
+				OnPropertyChanged("FirstButtonCommand");
+			}
+		}
+		RelayCommand deminingCommand;
+		public RelayCommand DeminingCommand
+		{
+			get
+			{
+				return deminingCommand ??
+					(deminingCommand = new RelayCommand(obj =>
+					{
+
+						SaperWindow saperWindow = new SaperWindow(SelectedSector);
+						if (saperWindow.ShowDialog() == true)
+						{
+							for (int i = SelectedSector.PosX - 1; i <= SelectedSector.PosX + 1; i++)
+							{
+								for (int z = SelectedSector.PosY - 1; z <= SelectedSector.PosY + 1; z++)
+								{
+									if (i == SelectedSector.PosX && z == SelectedSector.PosY) continue;
+									NewSector(new MinedSector() { PosX = i, PosY = z });
+								}
+							}
+
+							Sector ClearSector = new ClearSector()
+							{
+								PosX = SelectedSector.PosX,
+								PosY = SelectedSector.PosY,
+								Top = SelectedSector.Top,
+								Left = SelectedSector.Left
+							};
+
+							db.Sectors.Remove(SelectedSector);
+							//SelectedSector = ClearSector;
+							db.Sectors.Add(ClearSector);
+							db.SaveChanges();
+
+						}
+
+					}, obj =>
+					{
+						return SelectedSector is MinedSector;
+					}));
 			}
 		}
 
