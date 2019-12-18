@@ -10,6 +10,10 @@ namespace NewGame
 {
 	public abstract class Sector : INotifyPropertyChanged
 	{
+		public abstract string GetDescription();
+		public abstract string GetSectorType();
+		public abstract string GetSectorMeta();
+
 		private int top;
 		private int left;
 

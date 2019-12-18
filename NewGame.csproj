@@ -78,13 +78,15 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ApplicationContext.cs" />
-    <Compile Include="ApplicationViewModel.cs" />
-    <Compile Include="ClearSector.cs" />
+    <Compile Include="Main window\GameInfo.cs" />
+    <Compile Include="Main window\ApplicationViewModel.cs" />
+    <Compile Include="Models\ClearSector.cs" />
     <Compile Include="DependencyProperties\ScrollViewerUtilities.cs" />
-    <Compile Include="MapControl.cs" />
-    <Compile Include="MinedSector.cs" />
+    <Compile Include="Main window\MapControl.cs" />
+    <Compile Include="Models\MinedSector.cs" />
+    <Compile Include="Main window\PlayActs.cs" />
     <Compile Include="RelayCommand.cs" />
-    <Compile Include="Sector.cs" />
+    <Compile Include="Models\Sector.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

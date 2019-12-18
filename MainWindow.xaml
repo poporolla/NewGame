@@ -23,6 +23,7 @@
         <!--Game Map-->
         <ListBox x:Name="gameField" 
                  ItemsSource="{Binding Sectors}"
+                 SelectedItem="{Binding SelectedSector}"
                  Grid.Row="1"
                  Background="Azure" 
                  ScrollViewer.CanContentScroll="False"
@@ -84,10 +85,34 @@
             </ItemsControl.ItemTemplate>
         </ListBox>
         
+        <!--Player actions section-->
 
+        <StackPanel Orientation="Vertical" Grid.Column="1" Margin="10,0,0,0">
+            <StackPanel.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="FontSize" Value="25"/>
+                    <Setter Property="Foreground" Value="DodgerBlue"/>
+                    <Setter Property="Margin" Value="0,10,0,0"/>
+                </Style>
+            </StackPanel.Resources>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Сектор: " />
+                <TextBlock Text="{Binding Acts.Position}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Уровень: " />
+                <TextBlock Text="{Binding Acts.Level}"/>
+            </StackPanel>
+        </StackPanel>
+        
+        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Vertical" Margin="10,0,20,0">
+            <TextBlock Text="{Binding Acts.Type}" FontSize="30" Foreground="Green"/>
+            <TextBlock Text="{Binding Acts.Description}" FontSize="20" Foreground="Goldenrod" TextWrapping="Wrap"/>
+            <TextBlock Text="{Binding Acts.SectorMeta}" FontSize="17" Foreground="Gold" TextWrapping="Wrap"/>
+        </StackPanel>
 
         <!--Example for binding to selected item-->
-        <StackPanel x:Name="elemInfo"
+        <!--<StackPanel x:Name="elemInfo"
                     Grid.Row="1"
                     Grid.Column="1" >
             <StackPanel Orientation="Horizontal">
@@ -104,7 +129,7 @@
             <TextBox x:Name="posX"/>
             <TextBox x:Name="posY"/>
             
-        </StackPanel>
+        </StackPanel>-->
 
 
 
@@ -125,15 +150,15 @@
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
 
-            <Button/>
-            <Button Grid.Column="1" 
-                    Command="{Binding AddCommand}"
-                    CommandParameter="{Binding ElementName=elemInfo}"
-                    Content="Add"/>
+            <Button Command="{Binding Acts.FirstButtonCommand}"
+                    Content="{Binding Acts.FirstButton}"
+                    FontSize="15"/>
+            <Button Grid.Column="1"/>
             <Button Grid.Column="2"
                     Command="{Binding DeleteCommand}"
                     CommandParameter="{Binding ElementName=gameField, Path=SelectedItem}"/>
-            <Button Grid.Column="3"/>
+            <Button Grid.Column="3" Command="{Binding CheckCommand}" 
+                    CommandParameter="{Binding ElementName=gameField, Path=SelectedItem}"/>
 
         </Grid>
         

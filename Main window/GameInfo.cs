@@ -6,12 +6,7 @@ using System.Threading.Tasks;
 
 namespace NewGame
 {
-	public class ClearSector : Sector
+	class GameInfo
 	{
-		public ClearSector()
-		{
-			Level = 0;
-			FillType = "/NewGame;component/Images/SectorImages/Clear.jpg";
-		}
 	}
 }

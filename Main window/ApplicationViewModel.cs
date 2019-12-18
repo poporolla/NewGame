@@ -14,7 +14,7 @@ namespace NewGame
 {
 	public class ApplicationViewModel : INotifyPropertyChanged
 	{
-		ApplicationContext db;
+		public ApplicationContext db;
 		IEnumerable<Sector> sectors;
 		public IEnumerable<Sector> Sectors
 		{
@@ -28,6 +28,20 @@ namespace NewGame
 				OnPropertyChanged("Sector");
 			}
 		}
+		private Sector selectedSector;
+		public Sector SelectedSector
+		{
+			get
+			{
+				return selectedSector;
+			}
+			set
+			{
+				selectedSector = value;
+				Acts = new PlayActs(value, this);
+				OnPropertyChanged("SelectedSector");
+			}
+		}
 		public ApplicationViewModel()
 		{
 			db = new ApplicationContext();
@@ -35,6 +49,23 @@ namespace NewGame
 			Sectors = db.Sectors.Local.ToBindingList();
 
 			MapControl = new MapControl();
+		}
+
+		RelayCommand checkCommand;
+		public RelayCommand CheckCommand
+		{
+			get
+			{
+				return checkCommand ??
+					(checkCommand = new RelayCommand(obj =>
+					{
+						bool result = db.Sectors.Any((elem) => elem.PosX == 1 && elem.PosY == 0);
+						MessageBox.Show(result.ToString());
+					}, obj =>
+					{
+						return !(obj == null);
+					}));
+			}
 		}
 
 		RelayCommand addCommand;
@@ -45,10 +76,11 @@ namespace NewGame
 				return addCommand ??
 					(addCommand = new RelayCommand(obj =>
 					{
-						StackPanel stackPanel = obj as StackPanel;
-						Sector minenSector = new MinedSector();
-						minenSector.PosX = int.Parse((stackPanel.Children[3] as TextBox).Text);
-						minenSector.PosY = int.Parse((stackPanel.Children[4] as TextBox).Text);
+						//StackPanel stackPanel = obj as StackPanel;
+						//Sector minenSector = new MinedSector();
+						//minenSector.PosX = int.Parse((stackPanel.Children[3] as TextBox).Text);
+						//minenSector.PosY = int.Parse((stackPanel.Children[4] as TextBox).Text);
+						Sector minenSector = new MinedSector() { PosX = 0, PosY = 0 };
 						NewSector(minenSector);
 					}));
 			}
@@ -78,38 +110,39 @@ namespace NewGame
 					}));
 			}
 		}
-
+		/// <summary>
+		/// Создание нового сектора
+		/// </summary>
+		/// <param name="sector"></param>
 		private void NewSector(Sector sector)
 		{
-			//int centerX = Math.Abs(Sectors.Min(em => em.PosX)) * 40 + 25000;
-			//int centerY = Sectors.Max(em => em.PosY) * 40 + 25000;
-
-			////int deltaX = Sectors.Min(em => em.PosX) - sector.PosX;
-			////deltaX = (deltaX > 0) ? deltaX : 0;
-			////int deltaY = sector.PosY - Sectors.Max(em => em.PosY);
-			////deltaY = (deltaY > 0) ? deltaY : 0;
-
-			////if (deltaX > 0 || deltaY > 0)
-			////{
-			////	foreach(Sector sec in Sectors)
-			////	{
-			////		Sector secDB = db.Sectors.Find(sec.Id);
-			////		secDB.Left += deltaX * 40;
-			////		secDB.Top += deltaY * 40;
-			////		db.Entry(secDB).State = EntityState.Modified;
-			////	}
-			////}
-
-			//sector.Left = centerX + (sector.PosX * 40);
-			//sector.Top = centerY - (sector.PosY * 40);
+			if (db.Sectors.Any((elem) => elem.PosX == sector.PosX && elem.PosY == sector.PosY)) return;
 			sector.Left = 25000 + (sector.PosX * 40);
 			sector.Top = 25000 - (sector.PosY * 40);
 			db.Sectors.Add(sector);
 			db.SaveChanges();
 		}
 
-		// Controller for GameField
+		/// <summary>
+		/// Controller for gamefield
+		/// </summary>
 		public MapControl MapControl { get; set; }
+		/// <summary>
+		/// Controller for player actions
+		/// </summary>
+		private PlayActs acts;
+		public PlayActs Acts
+		{
+			get
+			{
+				return acts;
+			}
+			set
+			{
+				acts = value;
+				OnPropertyChanged("Acts");
+			}
+		}
 
 		public event PropertyChangedEventHandler PropertyChanged;
 		public void OnPropertyChanged([CallerMemberName] string property = "")
