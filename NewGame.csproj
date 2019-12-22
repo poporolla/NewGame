@@ -80,12 +80,14 @@
     <Compile Include="ApplicationContext.cs" />
     <Compile Include="Main window\GameInfo.cs" />
     <Compile Include="Main window\ApplicationViewModel.cs" />
-    <Compile Include="Models\ClearSector.cs" />
+    <Compile Include="ModelsDB\ClearSector.cs" />
     <Compile Include="DependencyProperties\ScrollViewerUtilities.cs" />
     <Compile Include="Main window\MapControl.cs" />
-    <Compile Include="Models\MinedSector.cs" />
+    <Compile Include="ModelsDB\MinedSector.cs" />
     <Compile Include="RelayCommand.cs" />
-    <Compile Include="Models\Sector.cs" />
+    <Compile Include="ModelsDB\Sector.cs" />
+    <Compile Include="SaperCell.cs" />
+    <Compile Include="SaperViewModel.cs" />
     <Compile Include="SaperWindow.xaml.cs">
       <DependentUpon>SaperWindow.xaml</DependentUpon>
     </Compile>

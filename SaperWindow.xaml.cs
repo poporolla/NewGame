@@ -19,19 +19,15 @@ namespace NewGame
 	/// </summary>
 	public partial class SaperWindow : Window
 	{
-		public Sector Sector { get; set; }
-		//public ClearSector ClearSector { get; set; }
 		public SaperWindow(Sector sector)
 		{
 			InitializeComponent();
-			Sector = sector;
-			//this.DataContext = MinedSector;
 
+			this.DataContext = new SaperViewModel(sector, this);
 		}
-
-		private void Button_Click(object sender, RoutedEventArgs e)
-		{
-			this.DialogResult = true;
-		}
+		//private void Button_Click(object sender, RoutedEventArgs e)
+		//{
+		//	this.DialogResult = true;
+		//}
 	}
 }

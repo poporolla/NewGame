@@ -3,11 +3,71 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:local="clr-namespace:NewGame"
         mc:Ignorable="d"
-        Title="SaperWindow" Height="450" Width="800">
+        Title="SaperWindow" Height="{Binding Height}" MaxWidth="{Binding Width}" WindowStartupLocation="CenterScreen">
     <Grid>
-        <Grid.ColumnDefinitions>
+        <StackPanel Orientation="Vertical">
+            <StackPanel Height="20" Orientation="Horizontal">
+                <TextBlock Text="Поле: "/>
+                <TextBlock Text="{Binding FieldSize}"/>
+                <TextBlock Text="x"/>
+                <TextBlock Text="{Binding FieldSize}"/>
+                <TextBlock Text="Мин: " Margin="50,0,0,0"/>
+                <TextBlock Text="{Binding MinesCount}"/>
+            </StackPanel>
+            <ScrollViewer x:Name="field" VerticalScrollBarVisibility="Disabled" 
+                          HorizontalScrollBarVisibility="Disabled">
+                <ScrollViewer.Resources>
+                    <Style TargetType="{x:Type Button}">
+                        <Style.Triggers>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Foreground" Value="Red"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ScrollViewer.Resources>
+                <ItemsControl ItemsSource="{Binding SaperCells}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Rows="{Binding FieldSize}" 
+                                 Columns="{Binding FieldSize}" 
+                                 IsItemsHost="True"
+                                 Margin="0">
+                            </UniformGrid>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button Grid.Column="{Binding PosX}" 
+                            Grid.Row="{Binding PosY}" 
+                            Content="{Binding Text}"
+                            FontWeight="Bold"
+                            Foreground="Blue"
+                            Width="20" Height="20"
+                            Margin="1"
+                            Command="{Binding ElementName=field,  Path=DataContext.CellClickCommand}"
+                            CommandParameter="{Binding}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="MouseRightButtonDown">
+                                        <i:InvokeCommandAction 
+                                                        Command="{Binding ElementName=field, Path=DataContext.FlagCommand}"
+                                                        PassEventArgsToCommand="True"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </StackPanel>
+        
+
+
+
+        <!--old buttons for test-->
+        <!--<Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
@@ -16,6 +76,6 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Button IsDefault="True" Grid.Row="1"  Click="Button_Click" >OK</Button>
-        <Button IsCancel="True" Grid.Row="1" Grid.Column="1">Cancel</Button>
+        <Button IsCancel="True" Grid.Row="1" Grid.Column="1">Cancel</Button>-->
     </Grid>
 </Window>
