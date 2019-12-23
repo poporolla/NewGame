@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:NewGame"
         mc:Ignorable="d"
         Title="MainWindow" Height="900" Width="1600" WindowStartupLocation="CenterScreen">
-    <Grid>
+    <Grid Background="Silver">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="0.17*"/>
@@ -43,7 +43,7 @@
                                         CanContentScroll="False">
 
                                         <Canvas IsItemsHost="True" 
-                                                Background="Aquamarine" 
+                                                Background="Gray" 
                                                 Width="{Binding MapControl.Width}"
                                                 Height="{Binding MapControl.Width}">
                                             <i:Interaction.Triggers>
@@ -107,8 +107,8 @@
         
         <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Vertical" Margin="10,0,20,0">
             <TextBlock Text="{Binding Type}" FontSize="30" Foreground="Green"/>
-            <TextBlock Text="{Binding Description}" FontSize="20" Foreground="Goldenrod" TextWrapping="Wrap"/>
-            <TextBlock Text="{Binding SectorMeta}" FontSize="17" Foreground="Gold" TextWrapping="Wrap"/>
+            <TextBlock Text="{Binding Description}" FontSize="20" Foreground="MediumPurple" TextWrapping="Wrap"/>
+            <TextBlock Text="{Binding SectorMeta}" FontSize="17" Foreground="MediumSlateBlue" TextWrapping="Wrap"/>
         </StackPanel>
 
         <!--Example for binding to selected item-->

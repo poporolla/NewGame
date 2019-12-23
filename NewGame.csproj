@@ -86,8 +86,8 @@
     <Compile Include="ModelsDB\MinedSector.cs" />
     <Compile Include="RelayCommand.cs" />
     <Compile Include="ModelsDB\Sector.cs" />
-    <Compile Include="SaperCell.cs" />
-    <Compile Include="SaperViewModel.cs" />
+    <Compile Include="Saper\SaperCell.cs" />
+    <Compile Include="Saper\SaperViewModel.cs" />
     <Compile Include="SaperWindow.xaml.cs">
       <DependentUpon>SaperWindow.xaml</DependentUpon>
     </Compile>
